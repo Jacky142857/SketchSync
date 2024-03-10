@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import LiveCursors from './cursor/LiveCursors'
 import { useBroadcastEvent, useEventListener, useMyPresence, useOthers } from '@/liveblocks.config'
 import { handleKeyDown } from '@/lib/key-events';
-import { CursorMode, CursorState, Reaction } from '@/types/type';
+import { CursorMode, CursorState, Reaction, ReactionEvent } from '@/types/type';
 import CursorChat from './cursor/CursorChat';
 import ReactionSelector from './reaction/ReactionButton';
 import FlyingReaction from './reaction/FlyingReaction';
@@ -15,7 +15,7 @@ type Props = {
 }
 
 const Live = ({ canvasRef }: Props) => {
-  const [{ cursor }, updateMyPresence] = useMyPresence();
+  const [{ cursor }, updateMyPresence] = useMyPresence() as any;
   const [cursorState, setCursorState] = useState<CursorState>({
     mode: CursorMode.Hidden,
   })
@@ -48,7 +48,7 @@ const Live = ({ canvasRef }: Props) => {
   }, 100);
 
   useEventListener((eventData) => {
-    const event = eventData.event;
+    const event = eventData.event as ReactionEvent;
     setReactions((reactions) =>
       reactions.concat([
         {

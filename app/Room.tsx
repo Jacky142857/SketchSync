@@ -9,7 +9,7 @@ import Loader from "@/components/Loader";
 export function Room({ children }: { children: ReactNode }) {
   return (
     <RoomProvider id="my-room" initialPresence={{
-      cursor: null, cursorColor: null, editingText: null
+      cursor: null,  message: null
     }}
     initialStorage={{canvasObjects: new LiveMap()}}>
       <ClientSideSuspense fallback={<Loader/>}>
