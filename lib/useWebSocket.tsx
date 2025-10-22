@@ -125,18 +125,45 @@ export const WebSocketProvider: React.FC<{
     commentDeleted: []
   });
 
-  // Initialize socket connection
+  // Store current room and user for reconnection
+  const currentRoomRef = useRef<{ roomId: string; user: Omit<User, 'connectionId'> } | null>(null);
+
+  // Initialize socket connection with reconnection logic
   useEffect(() => {
-    const newSocket = io(serverUrl);
+    const newSocket = io(serverUrl, {
+      reconnection: true,
+      reconnectionDelay: 1000,
+      reconnectionDelayMax: 5000,
+      reconnectionAttempts: 5
+    });
 
     newSocket.on('connect', () => {
       console.log('Connected to WebSocket server');
       setIsConnected(true);
+
+      // Rejoin room if we were in one before disconnect
+      if (currentRoomRef.current) {
+        const { roomId, user } = currentRoomRef.current;
+        console.log('Reconnecting to room:', roomId);
+        newSocket.emit('join-room', { roomId, user });
+      }
     });
 
-    newSocket.on('disconnect', () => {
-      console.log('Disconnected from WebSocket server');
+    newSocket.on('disconnect', (reason) => {
+      console.log('Disconnected from WebSocket server:', reason);
       setIsConnected(false);
+    });
+
+    newSocket.on('connect_error', (error) => {
+      console.error('Connection error:', error);
+    });
+
+    newSocket.on('reconnect_attempt', (attemptNumber) => {
+      console.log('Reconnection attempt:', attemptNumber);
+    });
+
+    newSocket.on('reconnect_failed', () => {
+      console.error('Failed to reconnect after maximum attempts');
     });
 
     // Room state
@@ -288,6 +315,8 @@ export const WebSocketProvider: React.FC<{
 
   const joinRoom = useCallback((roomId: string, user: Omit<User, 'connectionId'>) => {
     if (socket) {
+      // Store room info for reconnection
+      currentRoomRef.current = { roomId, user };
       socket.emit('join-room', { roomId, user });
     }
   }, [socket]);

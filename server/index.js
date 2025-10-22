@@ -7,12 +7,34 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Health check endpoint for monitoring
+app.get('/health', (req, res) => {
+  res.json({
+    status: 'ok',
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+    activeRooms: rooms.size
+  });
+});
+
 // REST API endpoint to check if room exists
 app.get('/api/room/check/:roomKey', (req, res) => {
-  const { roomKey } = req.params;
-  const exists = rooms.has(roomKey);
-  console.log(`[API] Room check for ${roomKey}: ${exists}`);
-  res.json({ exists });
+  try {
+    const { roomKey } = req.params;
+
+    if (!roomKey || roomKey.length !== 6) {
+      return res.status(400).json({
+        error: 'Invalid room key format. Expected 6 characters.'
+      });
+    }
+
+    const exists = rooms.has(roomKey);
+    console.log(`[API] Room check for ${roomKey}: ${exists}`);
+    res.json({ exists });
+  } catch (error) {
+    console.error('[API] Error checking room:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });
 
 const httpServer = createServer(app);

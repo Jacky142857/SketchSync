@@ -129,13 +129,21 @@ npm run dev
 
 ## Deployment
 
-### Client (Vercel)
-The Next.js app can be deployed to Vercel with environment variables configured.
+This application requires deploying two separate services. See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed step-by-step instructions.
 
-### Server
-Deploy the WebSocket server to any Node.js hosting platform (Railway, Render, DigitalOcean, etc.)
+### Quick Overview
 
-**Important**: Update `NEXT_PUBLIC_WEBSOCKET_URL` to point to your production WebSocket server URL.
+**Backend (WebSocket Server)**:
+- Deploy to: Render, Railway, or Fly.io
+- Set environment variables: `NODE_ENV=production`, `CLIENT_URL=<frontend-url>`
+- The `/health` endpoint is available for monitoring
+
+**Frontend (Next.js App)**:
+- Deploy to: Vercel (recommended)
+- Set environment variable: `NEXT_PUBLIC_WEBSOCKET_URL=<backend-url>`
+- Automatic builds on git push
+
+**Cost**: Free tier available on both Vercel and Render (~$0/month for demos)
 
 ## Contributing
 
