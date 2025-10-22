@@ -1,5 +1,5 @@
-import dynamic from "next/dynamic";
+import RoomEntry from "@/components/RoomEntry";
 
-const App = dynamic(() => import('./App'), {ssr: false})
-
-export default App;
+export default function Home() {
+  return <RoomEntry />;
+}

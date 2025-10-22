@@ -1,14 +1,14 @@
 import { COLORS } from '@/constants';
 import React from 'react'
 import Cursor from './Cursor';
-import { useOthers } from '@/liveblocks.config';
+import { useOthers } from '@/lib/useWebSocket';
 
 const LiveCursors = () => {
     const others = useOthers();
     return others.map(({connectionId, presence}) => {
         if(!presence?.cursor) return null;
         return (
-            <Cursor 
+            <Cursor
               key={connectionId}
               color={COLORS[Number(connectionId) % COLORS.length]}
               x={presence.cursor.x}

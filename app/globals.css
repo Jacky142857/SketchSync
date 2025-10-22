@@ -2,8 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@import "@liveblocks/react-comments/styles.css";
-
 * {
   font-family:
     work sans,

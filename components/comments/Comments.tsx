@@ -1,11 +1,10 @@
 "use client";
 
-import { ClientSideSuspense } from "@liveblocks/react";
+// import { CommentsOverlay } from "@/components/comments/CommentsOverlay";
 
-import { CommentsOverlay } from "@/components/comments/CommentsOverlay";
-
-export const Comments = () => (
-  <ClientSideSuspense fallback={null}>
-    {() => <CommentsOverlay />}
-  </ClientSideSuspense>
-);
+// Simplified comments - to be implemented with WebSocket
+export const Comments = () => {
+  // Comments feature temporarily disabled during migration from Liveblocks to WebSocket
+  // Will be re-enabled with custom implementation
+  return null;
+};

@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Work_Sans } from "next/font/google";
 import "./globals.css";
-import { Room } from "./Room";
 
 const workSans = Work_Sans({
   subsets: ["latin"],
@@ -9,8 +8,8 @@ const workSans = Work_Sans({
   weight: ['400', '600', '700']
 })
 export const metadata: Metadata = {
-  title: "Figma Clone",
-  description: "a minimalist figma clone",
+  title: "SketchSync",
+  description: "Real-time collaborative drawing application",
 };
 
 export default function RootLayout({
@@ -20,12 +19,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-
       <body className={`${workSans} bg-primary-grey-200`}>
-        <Room>
-          {children}
-        </Room>
-        </body>
+        {children}
+      </body>
     </html>
   );
 }

@@ -1,5 +1,9 @@
-import { BaseUserMeta, User } from "@liveblocks/client";
+// import { BaseUserMeta, User } from "@liveblocks/client";
 import { Gradient, Pattern } from "fabric/fabric-impl";
+
+// Temporary types for migration
+type BaseUserMeta = any;
+type User = any;
 
 export enum CursorMode {
   Hidden,

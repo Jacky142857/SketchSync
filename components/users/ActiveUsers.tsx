@@ -3,7 +3,7 @@
 import { useMemo } from "react";
 
 import { generateRandomName } from "@/lib/utils";
-import { useOthers, useSelf } from "@/liveblocks.config";
+import { useOthers, useSelf } from "@/lib/useWebSocket";
 
 import { Avatar } from "./Avatar";
 

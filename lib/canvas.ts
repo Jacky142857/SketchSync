@@ -358,6 +358,9 @@ export const renderCanvas = ({
       [objectData],
       (enlivenedObjects: fabric.Object[]) => {
         enlivenedObjects.forEach((enlivenedObj) => {
+          // Set the objectId on the fabric object so it can be synced later
+          (enlivenedObj as any).objectId = objectId;
+
           // if element is active, keep it in active state so that it can be edited further
           if (activeObjectRef.current?.objectId === objectId) {
             fabricRef.current?.setActiveObject(enlivenedObj);
